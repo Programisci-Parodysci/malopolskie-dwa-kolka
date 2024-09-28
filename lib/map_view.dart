@@ -16,7 +16,7 @@ class _MapViewState extends State<MapView> {
 
   @override
   void initState() {
-    proposedRoutes["test"] = loadGpx();
+   // proposedRoutes["test"] = loadGpx();
     super.initState();
   }
 
@@ -75,7 +75,7 @@ class _MapViewState extends State<MapView> {
                         'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                     userAgentPackageName: 'com.malopolskie-dwa-kolka.app',
                   ),
-                  PolylineLayer(
+                  /*PolylineLayer(
                     polylines: [
                       Polyline(
                         points: proposedRoutes["test"]!,
@@ -83,7 +83,7 @@ class _MapViewState extends State<MapView> {
                         color: Colors.blue,
                       ),
                     ],
-                  ),
+                  ),*/
                 ],
               );
             } else {
