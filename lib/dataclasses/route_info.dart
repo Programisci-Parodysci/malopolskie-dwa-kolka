@@ -11,3 +11,4 @@ class RouteInfo {
   RouteInfo({startLocation, destinationLocation, routeLength,
       required this.gpx, safetyRating, userRating});
 }
+
