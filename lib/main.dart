@@ -21,7 +21,9 @@ class MyApp extends StatelessWidget {
       home: const RouteSelection(),
       routes: {
         "/home": (context) => MyHomePage(title: "Home"),
-        //"/route": (context) => RouteScreen(routeSuggestions: routeSuggestions)
+        "/route_selection": (context) => RouteSelection(),
+        "/route": (context) => RouteScreen(),
+        "/map": (context) => MapView(),
       },
     );
   }

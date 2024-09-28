@@ -4,7 +4,6 @@ import 'package:latlong2/latlong.dart';
 import 'package:malopolskie_dwa_kolka/components/api_connection.dart';
 import 'package:malopolskie_dwa_kolka/widgets/appbar.dart';
 import 'package:malopolskie_dwa_kolka/dataclasses/route_info.dart';
-import 'package:malopolskie_dwa_kolka/components/api_connection.dart';
 
 class RouteWidget extends StatelessWidget {
   const RouteWidget({super.key});

@@ -3,11 +3,7 @@ import 'package:malopolskie_dwa_kolka/widgets/appbar.dart';
 import 'package:malopolskie_dwa_kolka/dataclasses/route_info.dart';
 
 class RouteScreen extends StatelessWidget {
-  
-
-  // Passing displayed route
-  const RouteScreen({super.key, required this.routeSuggestions});
-  final Map<String,RouteInfo> routeSuggestions;
+  const RouteScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

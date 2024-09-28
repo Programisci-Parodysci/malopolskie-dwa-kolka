@@ -5,6 +5,7 @@ import "package:gpx/gpx.dart";
 import 'dart:io';
 
 import 'package:malopolskie_dwa_kolka/widgets/appbar.dart';
+import 'package:malopolskie_dwa_kolka/dataclasses/route_info.dart';
 
 class RouteSelection extends StatefulWidget {
   const RouteSelection({super.key});
@@ -87,6 +88,21 @@ class _RouteSelectionState extends State<RouteSelection> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: const CustomAppBar(title: "Wybierz trasę"),
+        floatingActionButton:
+            FloatingActionButton(child: Text("Znajdź trasę"),
+                onPressed: () {
+                  if(startLatLng == null || endLatLng == null){
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Wybierz punkt startowy i końcowy!')));
+                  }
+                  else {
+                    Navigator.pushNamed(context, '/route', arguments:
+                    RouteSelectionInfo(presetName: "Safest",
+                        startLocation: startLatLng!,
+                        endLocation: endLatLng!));
+                }
+    }),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         body: Column(
           children: [
             TextField(
@@ -147,7 +163,6 @@ class _RouteSelectionState extends State<RouteSelection> {
                   );
                 },
               ),
-            Row(),
             Expanded(
               child: FlutterMap(
                 options: const MapOptions(
