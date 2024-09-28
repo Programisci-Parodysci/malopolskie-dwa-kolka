@@ -1,5 +1,6 @@
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
 
 class MapView extends StatefulWidget {
   const MapView({super.key, required this.title});
@@ -20,44 +21,32 @@ class MapView extends StatefulWidget {
 }
 
 class _MapViewState extends State<MapView> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
+  Map<String, List<LatLng>>proposedRoutes = {};
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: FlutterMap(
-        options: const MapOptions(),
+        options: const MapOptions(
+          initialCenter: LatLng(0, 0)
+        ),
         children: [
           TileLayer(
             urlTemplate:
             'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            userAgentPackageName: 'com.example.app',
+            userAgentPackageName: 'com.malopolskie-dwa-kolka.app',
+          ),
+          PolylineLayer(
+            polylines: [
+              Polyline(
+                points: proposedRoutes["AAA"]!,
+                strokeWidth: 4.0,
+                color: Colors.blue,
+              ),
+            ],
           ),
         ],
       ) // This trailing comma makes auto-formatting nicer for build methods.
