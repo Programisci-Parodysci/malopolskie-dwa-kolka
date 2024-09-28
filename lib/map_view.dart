@@ -4,6 +4,8 @@ import 'package:latlong2/latlong.dart';
 import "package:gpx/gpx.dart";
 import 'dart:io';
 
+import 'package:malopolskie_dwa_kolka/components/appbar.dart';
+
 class MapView extends StatefulWidget {
   const MapView({super.key});
 
@@ -51,10 +53,7 @@ class _MapViewState extends State<MapView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("Map"),
-      ),
+      appBar: const CustomAppBar(title: "Trasy"),
       body: FutureBuilder<String>(
           future: readFile(
               "../data/export.gpx"), // The async function to fetch data
@@ -68,7 +67,7 @@ class _MapViewState extends State<MapView> {
             } else if (snapshot.hasData) {
               // Display the data once it's loaded
               return FlutterMap(
-                options: const MapOptions(initialCenter: LatLng(0, 0)),
+                options: const MapOptions(initialCenter: LatLng(50.067720, 19.991566)),
                 children: [
                   TileLayer(
                     urlTemplate:
