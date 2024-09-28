@@ -53,7 +53,7 @@ class _MapViewState extends State<MapView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: "Trasy"),
+      appBar: const CustomAppBar(title: "Trasy")  ,
       body: FutureBuilder<String>(
           future: readFile(
               "../data/export.gpx"), // The async function to fetch data
