@@ -2,7 +2,6 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import "package:gpx/gpx.dart";
-import 'dart:io';
 
 import 'package:malopolskie_dwa_kolka/widgets/appbar.dart';
 import 'package:malopolskie_dwa_kolka/dataclasses/route_info.dart';
