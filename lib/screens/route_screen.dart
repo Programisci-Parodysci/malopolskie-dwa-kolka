@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:malopolskie_dwa_kolka/components/appbar.dart';
+import 'package:malopolskie_dwa_kolka/widgets/appbar.dart';
 import 'package:malopolskie_dwa_kolka/dataclasses/route_info.dart';
 
 class RouteScreen extends StatelessWidget {

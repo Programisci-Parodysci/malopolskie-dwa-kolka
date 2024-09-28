@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:malopolskie_dwa_kolka/components/appbar.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:malopolskie_dwa_kolka/components/api_connection.dart';
+import 'package:malopolskie_dwa_kolka/widgets/appbar.dart';
 import 'package:malopolskie_dwa_kolka/dataclasses/route_info.dart';
+import 'package:malopolskie_dwa_kolka/components/api_connection.dart';
 
 class RouteWidget extends StatelessWidget {
   const RouteWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final route = ModalRoute.of(context)!.settings.arguments as Email;
+    final route =
+        ModalRoute.of(context)!.settings.arguments as RouteSelectionInfo;
 
     return Scaffold(
       appBar: const CustomAppBar(title: "Trasy"),
-      body: FutureBuilder<String>(
-          future: readFile(
-              "../data/export.gpx"), // The async function to fetch data
+      body: FutureBuilder<RouteInfo>(
+          future: ApiConnector.getRoute(
+              route.presetName, route.startLocation, route.endLocation),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               // Show loading spinner while waiting for the data
@@ -24,11 +29,12 @@ class RouteWidget extends StatelessWidget {
             } else if (snapshot.hasData) {
               // Display the data once it's loaded
               return FlutterMap(
-                options: const MapOptions(initialCenter: LatLng(50.067720, 19.991566)),
+                options: const MapOptions(
+                    initialCenter: LatLng(50.067720, 19.991566)),
                 children: [
                   TileLayer(
                     urlTemplate:
-                    'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                     userAgentPackageName: 'com.malopolskie-dwa-kolka.app',
                   ),
                   /*PolylineLayer(
@@ -48,4 +54,5 @@ class RouteWidget extends StatelessWidget {
             }
           }),
     );
+        }
 }

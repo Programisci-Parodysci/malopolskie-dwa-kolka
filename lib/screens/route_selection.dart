@@ -4,7 +4,7 @@ import 'package:latlong2/latlong.dart';
 import "package:gpx/gpx.dart";
 import 'dart:io';
 
-import 'package:malopolskie_dwa_kolka/components/appbar.dart';
+import 'package:malopolskie_dwa_kolka/widgets/appbar.dart';
 
 class RouteSelection extends StatefulWidget {
   const RouteSelection({super.key});

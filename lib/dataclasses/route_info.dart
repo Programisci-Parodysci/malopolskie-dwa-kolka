@@ -12,3 +12,10 @@ class RouteInfo {
       required this.gpx, safetyRating, userRating});
 }
 
+class RouteSelectionInfo {
+  LatLng startLocation;
+  LatLng endLocation;
+  String presetName;
+
+  RouteSelectionInfo({required this.startLocation, required this.endLocation, required this.presetName});
+}
