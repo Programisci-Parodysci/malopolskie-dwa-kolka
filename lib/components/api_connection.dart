@@ -12,8 +12,8 @@ class ApiConnector {
     final url = Uri.http(host, "find_route", {
       'preset_name': presetName,
       'start_latitude': startLocation.latitude,
-      'query2': startLocation.longitude,
-      'query3': endLocation.latitude,
+      'start_longitude': startLocation.longitude,
+      'end_latitude': endLocation.latitude,
       'end_longitude': endLocation.longitude
     });
 
@@ -26,6 +26,23 @@ class ApiConnector {
           .toList();
 
       return RouteInfo(gpx: gpxList);
+    } else {
+      throw Exception(
+          'failed to fetch data: HTTP status ${response.statusCode}');
+    }
+  }
+
+  static Future<List<String>> getSuggestionsForNames(String addressStart) async{
+    final url = Uri.http(host, "get_sug", {
+      'letters': addressStart,
+    });
+
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      List<String> data = json.decode(response.body);
+
+      return data;
     } else {
       throw Exception(
           'failed to fetch data: HTTP status ${response.statusCode}');
