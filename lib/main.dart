@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import "package:malopolskie_dwa_kolka/map_view.dart";
+import 'package:malopolskie_dwa_kolka/screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MapView(),
+      home: const HomeScreen(),
     );
   }
 }
