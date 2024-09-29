@@ -6,8 +6,7 @@ import 'package:malopolskie_dwa_kolka/widgets/route_widget.dart';
 import 'package:gap/gap.dart';
 
 class RouteScreen extends StatefulWidget {
-  const RouteScreen({super.key, required this.routeInfo});
-  final RouteInfo routeInfo;
+  const RouteScreen({super.key});
 
   @override
   State<RouteScreen> createState() => _RouteScreenState();
@@ -20,6 +19,9 @@ class _RouteScreenState extends State<RouteScreen> {
   
 
   Widget build(BuildContext content){
+    final route =
+        ModalRoute.of(context)!.settings.arguments as RouteSelectionInfo;
+
     return Scaffold(
       appBar: const CustomAppBar(title: "Wybierz trasę"),
       body: 
@@ -104,7 +106,7 @@ class _RouteScreenState extends State<RouteScreen> {
                   Spacer(),
                 ],
               ),
-              RouteWidget(widget.routeInfo),
+              RouteWidget(),
               ],
               
           ),

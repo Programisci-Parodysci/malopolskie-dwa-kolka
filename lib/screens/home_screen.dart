@@ -13,6 +13,9 @@ class HomeScreen extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    
+
+
     return Scaffold(
       appBar: const CustomAppBar(title: "Małopolskie2Kółka"),
       // bottomNavigationBar: NavigationBar(destinations: const[]),
