@@ -5,11 +5,11 @@ import 'dart:convert';
 import 'package:malopolskie_dwa_kolka/dataclasses/route_info.dart';
 
 class ApiConnector {
-  static const host = "http://srv27.mikr.us:40088/";
+  static const host = "srv27.mikr.us:40088";
 
   static Future<RouteInfo> getRoute(
       String presetName, LatLng startLocation, LatLng endLocation) async {
-    final url = Uri.http(host, "find_route", {
+    final url = Uri.http(host, "/find_route", {
       'preset_name': presetName,
       'start_latitude': startLocation.latitude,
       'start_longitude': startLocation.longitude,
@@ -33,16 +33,16 @@ class ApiConnector {
   }
 
   static Future<List<String>> getSuggestionsForNames(String addressStart) async{
-    final url = Uri.http(host, "get_sug", {
+    final url = Uri.http(host, "/get_sugg", {
       'letters': addressStart,
     });
 
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
-      List<String> data = json.decode(response.body);
-
-      return data;
+      List<dynamic> data = json.decode(response.body);
+      List<String> suggestions = data.cast<String>();
+      return suggestions;
     } else {
       throw Exception(
           'failed to fetch data: HTTP status ${response.statusCode}');

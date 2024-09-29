@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import "package:gpx/gpx.dart";
 import "package:gap/gap.dart";
+import 'package:malopolskie_dwa_kolka/components/api_connection.dart';
 import 'package:malopolskie_dwa_kolka/components/header_text.dart';
 import 'package:malopolskie_dwa_kolka/widgets/appbar.dart';
 import 'package:malopolskie_dwa_kolka/dataclasses/route_info.dart';
@@ -61,7 +62,18 @@ class _RouteSelectionState extends State<RouteSelection> {
         ));
   }
 
-  void getSuggestions(String input) {}
+  void getSuggestions(String input, String type) async{
+    List<String> suggestions = await ApiConnector.getSuggestionsForNames(input);
+    if(type == "start"){
+      setState(() {
+        _routeStartSuggestions = suggestions;
+      });
+    }
+    else{
+      _routeEndSuggestions = suggestions;
+    }
+
+  }
 
   LatLng getMapCenter() {
     if (startPointMarker == null) {
@@ -121,11 +133,8 @@ class _RouteSelectionState extends State<RouteSelection> {
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         body: Container(
           margin: EdgeInsets.all(20),
-        
           child: Column(
             children: [
-
-
               // Starting point selection
               Material(
                 elevation: 4.0,
@@ -143,7 +152,7 @@ class _RouteSelectionState extends State<RouteSelection> {
                     ),
                   ),
                   onChanged: (input) {
-                    getSuggestions(input);
+                    getSuggestions(input, "start");
                   },
                   onSubmitted: (input) {
                     LatLng coordinates = getCoordinatesFromName(input);
@@ -188,7 +197,7 @@ class _RouteSelectionState extends State<RouteSelection> {
                     ),
                   ),
                   onChanged: (input) {
-                    getSuggestions(input);
+                    getSuggestions(input, "end");
                   },
                 ),
               ),
