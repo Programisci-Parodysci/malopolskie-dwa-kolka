@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
 import "package:malopolskie_dwa_kolka/map_view.dart";
+import 'package:malopolskie_dwa_kolka/screens/home_screen.dart';
+import 'package:malopolskie_dwa_kolka/screens/login_screen.dart';
 import 'package:malopolskie_dwa_kolka/screens/route_screen.dart';
 import 'package:malopolskie_dwa_kolka/screens/route_selection.dart';
+import 'package:malopolskie_dwa_kolka/dataclasses/route_info.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,10 +19,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 226, 226, 226)),
         useMaterial3: true,
       ),
-      home: const RouteSelection(),
+      // home: HomeScreen(usersRoutes: [RouteInfo(gpx: []),RouteInfo(gpx: []),RouteInfo(gpx: [])]),
+      home: RouteSelection(),
       routes: {
         "/home": (context) => MyHomePage(title: "Home"),
         "/route_selection": (context) => RouteSelection(),

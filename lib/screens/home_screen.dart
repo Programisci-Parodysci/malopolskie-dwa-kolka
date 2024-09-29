@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:malopolskie_dwa_kolka/components/appbar.dart';
+import "package:gap/gap.dart";
+import 'package:malopolskie_dwa_kolka/dataclasses/route_info.dart';
+import 'package:malopolskie_dwa_kolka/widgets/appbar.dart';
 import 'package:malopolskie_dwa_kolka/components/header_text.dart';
+import 'package:malopolskie_dwa_kolka/widgets/small_route_preview.dart';
 
 class HomeScreen extends StatelessWidget{
 
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, required this.usersRoutes});
+
+  final List<RouteInfo> usersRoutes;
 
   @override
   Widget build(BuildContext context) {
@@ -23,56 +28,83 @@ class HomeScreen extends StatelessWidget{
                 children: [
                   const HeaderText(text: "Twoja lokalizacja"),
                   // TODO: Widget z mapą
-
+                  Gap(8),
                   // Placeholder
-                  AspectRatio(
+                  const AspectRatio(
                     aspectRatio: 1.4,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.amber,
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
+                    child: Material(
+                      color: Colors.white,
+                      elevation: 5.0,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      child: Text("tutaj idzie mapa"),
                     ),
                   ),
                   
+                  Gap(24),
 
+                 
+                        HeaderText(text: "Twoje trasy"), 
+                  
+                  // TODO: Sciągnieta lista tras uzytkownika
+                  Container(
+                    height: 220,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: usersRoutes.length,
+                      itemBuilder: (context, index) {
+                        return Row(
+                          children: [
+                            Gap(2),
+                            SmallRoutePreview(routeInfo: usersRoutes[index]),
+                            Gap(16)
+                          ],
+                        );
+                      }
+                      ),
+                  ),
+
+                  Gap(42),
 
                   Row(
                     children: [
-                      ElevatedButton(onPressed: () {}, child: const Text("Znajdź trasę")),
-                      ElevatedButton(onPressed: () {}, child: const Text("Dodaj zagrożenie"))
-                    ],
-                  ),
-
-                  const HeaderText(text: "Twoje trasy"),
-                  // TODO: Sciągnieta lista tras uzytkownika
-                  Expanded(
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      physics: const ScrollPhysics(),
-                      children: [
-                        Container(
-                          height: 30.0,
-                          width: 30.0,
-                          decoration: const BoxDecoration(
-                            color: Colors.amber,
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Color.fromARGB(255, 46, 118, 70)
                           ),
-                        ),
-                        
-                        Container(
-                          height: 30.0,
-                          width: 30.0,
-                          decoration: const BoxDecoration(
-                            
-                            color: Colors.amber,
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                        onPressed: () {}, 
+                        child: 
+                        const Column(
+                          children: [
+                            Gap(4),
+                            Icon(
+                              Icons.add_road_rounded,
+                              size: 42,
+                              ),
+                            Text("Znajdź trasę"),
+                            Gap(4),
+                            ])
+                        )),
+                      const Gap(16),
+                      Expanded(child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Color.fromARGB(255, 130, 43, 41)
                           ),
-                        ),
-                        
-                        
-                      ],
-                    ),
+                        onPressed: () {}, 
+                        child: 
+                        const Column(
+                          children: [
+                            Gap(4),
+                            Icon(
+                              Icons.warning_rounded,
+                              size: 42,
+                              ),
+                            Text("Dodaj zagrożenie"),
+                            Gap(4),
+                            ])
+                        )),                    ],
                   ),
 
                 ],

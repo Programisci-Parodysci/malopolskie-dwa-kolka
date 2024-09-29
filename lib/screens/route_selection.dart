@@ -2,7 +2,8 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import "package:gpx/gpx.dart";
-
+import "package:gap/gap.dart";
+import 'package:malopolskie_dwa_kolka/components/header_text.dart';
 import 'package:malopolskie_dwa_kolka/widgets/appbar.dart';
 import 'package:malopolskie_dwa_kolka/dataclasses/route_info.dart';
 
@@ -24,6 +25,7 @@ class _RouteSelectionState extends State<RouteSelection> {
   List<String> _routeEndSuggestions = [];
   Marker? startPointMarker;
   Marker? endPointMarker;
+  String selectedBikeType = "MTB";
 
   @override
   void initState() {
@@ -88,7 +90,22 @@ class _RouteSelectionState extends State<RouteSelection> {
     return Scaffold(
         appBar: const CustomAppBar(title: "Wybierz trasę"),
         floatingActionButton:
-            FloatingActionButton(child: Text("Znajdź trasę"),
+            FloatingActionButton.extended(
+                backgroundColor: Color.fromARGB(255, 46, 118, 70),
+                foregroundColor: Colors.white,
+                isExtended: true,
+                label: 
+                  Row(
+                    children: [
+                      Icon(Icons.search),
+                      Gap(10),
+                      Text(
+                        "Znajdź trasę",
+                        maxLines: 1,
+                        
+                        ),
+                    ],
+                  ),
                 onPressed: () {
                   if(startLatLng == null || endLatLng == null){
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -100,87 +117,288 @@ class _RouteSelectionState extends State<RouteSelection> {
                         startLocation: startLatLng!,
                         endLocation: endLatLng!));
                 }
-    }),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        body: Column(
-          children: [
-            TextField(
-              controller: _routeStartController,
-              decoration: InputDecoration(
-                hintText: "Początek trasy",
-                border: OutlineInputBorder(),
-              ),
-              onChanged: (input) {
-                getSuggestions(input);
-              },
-              onSubmitted: (input) {
-                LatLng coordinates = getCoordinatesFromName(input);
-              },
-            ),
-            if (_routeStartSuggestions.isNotEmpty)
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: _routeStartSuggestions.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(_routeStartSuggestions[index]),
-                    onTap: () {
-                      _routeStartController.text =
-                          _routeStartSuggestions[index];
-                      setState(() {
-                        _routeStartSuggestions.clear();
-                      });
-                    },
-                  );
-                },
-              ),
-            TextField(
-              controller: _routeEndController,
-              decoration: InputDecoration(
-                hintText: "Koniec trasy",
-                border: OutlineInputBorder(),
-              ),
-              onChanged: (input) {
-                getSuggestions(input);
-              },
-            ),
-            if (_routeEndSuggestions.isNotEmpty)
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: _routeEndSuggestions.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(_routeEndSuggestions[index]),
-                    onTap: () {
-                      _routeEndController.text = _routeEndSuggestions[index];
-                      setState(() {
-                        _routeEndController.clear();
-                      });
-                    },
-                  );
-                },
-              ),
-            Expanded(
-              child: FlutterMap(
-                options: const MapOptions(
-                    initialCenter: LatLng(50.067720, 19.991566)),
-                children: [
-                  TileLayer(
-                    urlTemplate:
-                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    userAgentPackageName: 'com.malopolskie-dwa-kolka.app',
+        }),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        body: Container(
+          margin: EdgeInsets.all(20),
+        
+          child: Column(
+            children: [
+
+
+              // Starting point selection
+              Material(
+                elevation: 4.0,
+                borderRadius: BorderRadius.circular(12),
+                child: TextField(
+                  controller: _routeStartController,
+                  decoration: InputDecoration(
+                    label: Text("Początek trasy"),
+                    fillColor: Colors.white,
+                    filled: true,
+                    prefixIcon: Icon(Icons.pin_drop),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide.none
+                    ),
                   ),
-                  MarkerLayer(
-                      markers: [startPointMarker, endPointMarker]
-                          .where((item) => item != null)
-                          .toList()
-                          .cast<Marker>())
+                  onChanged: (input) {
+                    getSuggestions(input);
+                  },
+                  onSubmitted: (input) {
+                    LatLng coordinates = getCoordinatesFromName(input);
+                  },
+                ),
+              ),
+              if (_routeStartSuggestions.isNotEmpty)
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: _routeStartSuggestions.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(_routeStartSuggestions[index]),
+                      onTap: () {
+                        _routeStartController.text =
+                            _routeStartSuggestions[index];
+                        setState(() {
+                          _routeStartSuggestions.clear();
+                        });
+                      },
+                    );
+                  },
+                ),
+
+              Gap(8),
+              
+              // Destination point selection
+              Material(
+                elevation: 5.0,
+                borderRadius: BorderRadius.circular(12),
+                child: TextField(
+                  controller: _routeEndController,
+                  decoration: InputDecoration(
+                    label: Text("Koniec trasy"),
+                    prefixIcon: Icon(Icons.flag),
+                    fillColor: Colors.white,
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide.none
+                    ),
+                  ),
+                  onChanged: (input) {
+                    getSuggestions(input);
+                  },
+                ),
+              ),
+              if (_routeEndSuggestions.isNotEmpty)
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: _routeEndSuggestions.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(_routeEndSuggestions[index]),
+                      onTap: () {
+                        _routeEndController.text = _routeEndSuggestions[index];
+                        setState(() {
+                          _routeEndController.clear();
+                        });
+                      },
+                    );
+                  },
+                ),
+
+              Gap(32),
+              
+              Text(
+                "Rodzaj nawierzchni",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+
+              Gap(16),
+
+              Row(
+                // TODO: Dodawanie wybranej preferencji do wysyłanego zapytania
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedBikeType = "MTB";
+                        });
+                
+                      },
+                      child: Container(
+                        alignment: AlignmentDirectional.center,
+                        padding: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: (selectedBikeType == "MTB" ? Colors.lightGreen:Colors.white),
+                          borderRadius: BorderRadius.circular(12)
+                        ),
+                        child: 
+                          Column(
+                            children: [
+                              Icon(
+                                Icons.terrain,
+                                color: (selectedBikeType == "MTB" ? Color.fromARGB(255, 9, 72, 25): Colors.black),
+                                ),
+                              Text(
+                                "MTB",
+                                style: TextStyle(
+                                  color: (selectedBikeType == "MTB" ? Color.fromARGB(255, 9, 72, 25): Colors.black)
+                                ),
+                                )
+                              ]
+                          ),
+                      ),
+                    ),
+                  ),
+
+                  Gap(16),
+
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedBikeType = "Szosowy";
+                        });
+                
+                      },
+                      child: Container(
+                        alignment: AlignmentDirectional.center,
+                        padding: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: (selectedBikeType == "Szosowy" ? Colors.lightGreen:Colors.white),
+                          borderRadius: BorderRadius.circular(12)
+                        ),
+                        child: 
+                          Column(
+                            children: [
+                              Icon(
+                                Icons.traffic,
+                                color: (selectedBikeType == "Szosowy" ? Color.fromARGB(255, 9, 72, 25): Colors.black),
+                                ),
+                              Text(
+                                "Szosowy",
+                                style: TextStyle(
+                                  color: (selectedBikeType == "Szosowy" ? Color.fromARGB(255, 9, 72, 25): Colors.black)
+                                ),
+                                )
+                              ]
+                          ),
+                      ),
+                    ),
+                  ),
+
+                  Gap(16),
+
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedBikeType = "Miejski";
+                        });
+                
+                      },
+                      child: Container(
+                        alignment: AlignmentDirectional.center,
+                        padding: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: (selectedBikeType == "Miejski" ? Colors.lightGreen:Colors.white),
+                          borderRadius: BorderRadius.circular(12)
+                        ),
+                        child: 
+                          Column(
+                            children: [
+                              Icon(
+                                Icons.location_city,
+                                color: (selectedBikeType == "Miejski" ? Color.fromARGB(255, 9, 72, 25): Colors.black),
+                                ),
+                              Text(
+                                "Miejski",
+                                style: TextStyle(
+                                  color: (selectedBikeType == "Miejski" ? Color.fromARGB(255, 9, 72, 25): Colors.black)
+                                ),
+                                )
+                              ]
+                          ),
+                      ),
+                    ),
+                  ),
+
+                  Gap(16),
+
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedBikeType = "Cross";
+                        });
+                
+                      },
+                      child: Container(
+                        alignment: AlignmentDirectional.center,
+                        padding: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: (selectedBikeType == "Cross" ? Colors.lightGreen:Colors.white),
+                          borderRadius: BorderRadius.circular(12)
+                        ),
+                        child: 
+                          Column(
+                            children: [
+                              Icon(
+                                Icons.pedal_bike,
+                                color: (selectedBikeType == "Cross" ? Color.fromARGB(255, 9, 72, 25): Colors.black),
+                                ),
+                              Text(
+                                "Cross",
+                                style: TextStyle(
+                                  color: (selectedBikeType == "Cross" ? Color.fromARGB(255, 9, 72, 25): Colors.black)
+                                ),
+                                )
+                              ]
+                          ),
+                      ),
+                    ),
+                  ),
+
+                  Gap(16),
                 ],
               ),
-            ),
-          ],
-        ));
+
+              Gap(32),
+
+              Material(
+                elevation: 5.0,
+                borderRadius: BorderRadius.circular(12),
+                child: SizedBox(
+                  width: 370,
+                  height: 370,
+                  child:  FlutterMap(
+                      options: const MapOptions(
+                          initialCenter: LatLng(50.067720, 19.991566)),
+                      children: [
+                        TileLayer(
+                          urlTemplate:
+                              'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                          userAgentPackageName: 'com.malopolskie-dwa-kolka.app',
+                        ),
+                        MarkerLayer(
+                            markers: [startPointMarker, endPointMarker]
+                                .where((item) => item != null)
+                                .toList()
+                                .cast<Marker>())
+                      ],
+                    ),
+                  ),
+              ),
+            ],
+          ),
+          )
+        );
   }
 }
