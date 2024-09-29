@@ -11,6 +11,16 @@ class RouteScreen extends StatelessWidget {
     appBar: CustomAppBar(title: "Propozycje"),
     body: Column(
       children: [
+        Row(
+          children: [
+            ElevatedButton(onPressed: null, child: Text("")),
+            ElevatedButton(onPressed: null, child: Text("")),
+            ElevatedButton(onPressed: null, child: Text("")),
+            ElevatedButton(onPressed: null, child: Text("")),
+          ],
+
+        ),
+
      ],
     ),
    );
