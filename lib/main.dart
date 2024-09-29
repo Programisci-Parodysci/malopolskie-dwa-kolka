@@ -22,12 +22,12 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 226, 226, 226)),
         useMaterial3: true,
       ),
-      // home: HomeScreen(usersRoutes: [RouteInfo(gpx: []),RouteInfo(gpx: []),RouteInfo(gpx: [])]),
-      home: RouteSelection(),
+      home: HomeScreen(usersRoutes: [RouteInfo(gpx: []),RouteInfo(gpx: []),RouteInfo(gpx: [])]),
+      // home: LoginScreen(),
       routes: {
         "/home": (context) => MyHomePage(title: "Home"),
         "/route_selection": (context) => RouteSelection(),
-        "/route": (context) => RouteScreen(),
+        // "/route": (context) => RouteScreen(),
         "/map": (context) => MapView(),
       },
     );
