@@ -48,4 +48,22 @@ class ApiConnector {
           'failed to fetch data: HTTP status ${response.statusCode}');
     }
   }
+
+  static Future<LatLng> getCoordinatesFromName(String address) async{
+    final url = Uri.http(host, "/get_coords", {
+      'address': address,
+    });
+
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      String data = response.body;
+      print(data);
+      LatLng coordinates = LatLng(double.parse(data.split(',')[0]), double.parse(data.split(",")[1]));
+      return coordinates;
+    } else {
+      throw Exception(
+          'failed to fetch data: HTTP status ${response.statusCode}');
+    }
+  }
 }

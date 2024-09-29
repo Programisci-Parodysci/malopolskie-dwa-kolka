@@ -40,8 +40,21 @@ class _RouteSelectionState extends State<RouteSelection> {
     super.dispose();
   }
 
-  LatLng getCoordinatesFromName(String name) {
-    return LatLng(50.067720, 19.991566);
+  Future<void> getCoordinatesFromName(String name, String type) async{
+    if(name.isEmpty){
+      return;
+    }
+    LatLng coordinates =  await ApiConnector.getCoordinatesFromName(name);
+    if(type == "start"){
+      setState(() {
+        startLatLng = coordinates;
+      });
+    }
+    else{
+      setState(() {
+        endLatLng = coordinates;
+      });
+    }
   }
 
   void setStartPointOnMap(LatLng coordinates) {
@@ -63,6 +76,9 @@ class _RouteSelectionState extends State<RouteSelection> {
   }
 
   void getSuggestions(String input, String type) async{
+    if(input.isEmpty){
+      return;
+    }
     List<String> suggestions = await ApiConnector.getSuggestionsForNames(input);
     if(type == "start"){
       setState(() {
@@ -70,7 +86,9 @@ class _RouteSelectionState extends State<RouteSelection> {
       });
     }
     else{
-      _routeEndSuggestions = suggestions;
+      setState(() {
+        _routeEndSuggestions = suggestions;
+      });
     }
 
   }
@@ -125,7 +143,7 @@ class _RouteSelectionState extends State<RouteSelection> {
                   }
                   else {
                     Navigator.pushNamed(context, '/route', arguments:
-                    RouteSelectionInfo(presetName: "Safest",
+                    RouteSelectionInfo(presetName: selectedBikeType,
                         startLocation: startLatLng!,
                         endLocation: endLatLng!));
                 }
@@ -155,12 +173,14 @@ class _RouteSelectionState extends State<RouteSelection> {
                     getSuggestions(input, "start");
                   },
                   onSubmitted: (input) {
-                    LatLng coordinates = getCoordinatesFromName(input);
+                    _routeStartSuggestions.clear();
+                    getCoordinatesFromName(input, "start");
                   },
                 ),
               ),
               if (_routeStartSuggestions.isNotEmpty)
                 ListView.builder(
+                  padding: EdgeInsets.all(0),
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemCount: _routeStartSuggestions.length,
@@ -198,6 +218,11 @@ class _RouteSelectionState extends State<RouteSelection> {
                   ),
                   onChanged: (input) {
                     getSuggestions(input, "end");
+                  },
+                  onSubmitted: (input) {
+                    _routeEndSuggestions.clear();
+                    getCoordinatesFromName(input, "end");
+
                   },
                 ),
               ),

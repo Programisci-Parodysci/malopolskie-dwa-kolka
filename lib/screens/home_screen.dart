@@ -7,9 +7,9 @@ import 'package:malopolskie_dwa_kolka/widgets/small_route_preview.dart';
 
 class HomeScreen extends StatelessWidget{
 
-  const HomeScreen({super.key, required this.usersRoutes});
+  const HomeScreen({super.key});
 
-  final List<RouteInfo> usersRoutes;
+  //final List<RouteInfo> usersRoutes;
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +50,12 @@ class HomeScreen extends StatelessWidget{
                     height: 220,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: usersRoutes.length,
+                      itemCount: 0,//usersRoutes.length,
                       itemBuilder: (context, index) {
                         return Row(
                           children: [
                             Gap(2),
-                            SmallRoutePreview(routeInfo: usersRoutes[index]),
+                            //SmallRoutePreview(routeInfo: usersRoutes[index]),
                             Gap(16)
                           ],
                         );
@@ -73,7 +73,9 @@ class HomeScreen extends StatelessWidget{
                             foregroundColor: Colors.white,
                             backgroundColor: Color.fromARGB(255, 46, 118, 70)
                           ),
-                        onPressed: () {}, 
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/route_selection');
+                        },
                         child: 
                         const Column(
                           children: [
@@ -92,7 +94,9 @@ class HomeScreen extends StatelessWidget{
                             foregroundColor: Colors.white,
                             backgroundColor: Color.fromARGB(255, 130, 43, 41)
                           ),
-                        onPressed: () {}, 
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/user_report');
+                        },
                         child: 
                         const Column(
                           children: [
